@@ -17,5 +17,6 @@
 "Drivers/display/ili9341.o"
 "Src/gpio.o"
 "Src/main.o"
+"Src/snake_struct.o"
 "Src/stm32f4xx_hal_msp.o"
 "Src/stm32f4xx_it.o"

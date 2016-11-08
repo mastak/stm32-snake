@@ -27,7 +27,8 @@ Src/main.o: ../Src/main.c \
  /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  /Users/mastak/micro/source/6-display-btns/Inc/gpio.h \
  /Users/mastak/micro/source/6-display-btns/Drivers/display/lcd.h \
- /Users/mastak/micro/source/6-display-btns/Drivers/display/registers.h
+ /Users/mastak/micro/source/6-display-btns/Drivers/display/registers.h \
+ /Users/mastak/micro/source/6-display-btns/Inc/snake_struct.h
 
 /Users/mastak/micro/source/6-display-btns/Inc/main.h:
 
@@ -86,3 +87,5 @@ Src/main.o: ../Src/main.c \
 /Users/mastak/micro/source/6-display-btns/Drivers/display/lcd.h:
 
 /Users/mastak/micro/source/6-display-btns/Drivers/display/registers.h:
+
+/Users/mastak/micro/source/6-display-btns/Inc/snake_struct.h:

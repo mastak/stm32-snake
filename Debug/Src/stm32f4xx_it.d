@@ -24,7 +24,8 @@ Src/stm32f4xx_it.o: ../Src/stm32f4xx_it.c \
  /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
  /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- /Users/mastak/micro/source/6-display-btns/Inc/stm32f4xx_it.h
+ /Users/mastak/micro/source/6-display-btns/Inc/stm32f4xx_it.h \
+ /Users/mastak/micro/source/6-display-btns/Inc/snake_struct.h
 
 /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -77,3 +78,5 @@ Src/stm32f4xx_it.o: ../Src/stm32f4xx_it.c \
 /Users/mastak/micro/source/6-display-btns/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 
 /Users/mastak/micro/source/6-display-btns/Inc/stm32f4xx_it.h:
+
+/Users/mastak/micro/source/6-display-btns/Inc/snake_struct.h:

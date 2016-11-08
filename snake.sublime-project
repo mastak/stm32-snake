@@ -1,0 +1,66 @@
+{
+    "build_systems":
+    [
+        {
+            "cmd": ["make"],
+            "name": "ARM build",
+            "working_dir": "${project_path}",
+            "file_regex": "^(.*):(\\d+):(\\d+):\\s*(.*)$"
+        }
+    ],
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": "Src",
+            "file_exclude_patterns": [
+                "*.vcproj",
+                "*.vcxproj",
+                "*.sln",
+                "*.gitignore",
+                "*.gitmodules",
+                "*.vcxproj.*"
+            ],
+            "folder_exclude_patterns": [
+                "build",
+                "out",
+                "third_party",
+                ".git",
+                "Debug",
+                "Release"
+            ]
+        }
+    ],
+
+    // Настройки линтеров
+    "SublimeLinter":
+    {
+        "linters":
+        {
+            "clang":
+            {
+                // Папки, в которых находятся файлы, анализируемые линтером
+                "include_dirs":
+                [
+                    "${project}/Inc",
+                    "${project}/Drivers"
+                ],
+                // Дополнительные флаги Clang
+                // По уомлчанию Clang использует С++98 стандарт
+                // -std=c++0x
+                // -std=c++11
+                // -std=c++1y
+                // -std=c++14
+                // -std=c++1z
+                // -DSTM32F10X_MD_VL
+                // -DSTM32F40_41xxx
+                "extra_flags":"-DSTM32F10X_MD_VL"
+            }
+        }
+    },
+    "settings":
+    {
+        "sublimegdb_workingdir": "${project_path:out/hex/}",
+        "sublimegdb_commandline": "arm-none-eabi-gdb --interpreter=mi *.elf"
+    }
+}

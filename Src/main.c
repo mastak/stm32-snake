@@ -38,62 +38,30 @@
 /* USER CODE BEGIN Includes */
 #include <stdlib.h> 
 #include "lcd.h"
+#include "snake_struct.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-#define LEN 10
-#define TPF 50
-#define WIDTH 240
-#define HEIGHT 320
-#define COLOR 100
-
-
-
-volatile struct Rotates last_rotate;
+#define TPF 100  // ticks per frame (like FPS in games)
+#define SNAKE_LEN 50
+#define SNAKE_COLOR 200
+#define BG_COLOR 0
+#define POINT_SIZE 3
 
 
 volatile Direction current_direction = BOTTOM;
 
-volatile Point head_position;
-
-
-void calculate_head_position(void) {
-  switch(current_direction) {
-    case TOP:
-      head_position.y = head_position.y > 0 ? head_position.y - 1 : HEIGHT - LEN;
-      break;
-    case RIGHT:
-      head_position.x = head_position.x < WIDTH ? head_position.x + 1 : LEN;
-      break;
-    case BOTTOM:
-      head_position.y = head_position.y < HEIGHT ? head_position.y + 1 : LEN;
-      break;
-    case LEFT:
-      head_position.x = head_position.x > 0 ? head_position.x - 1 : WIDTH - LEN;
-      break;
+void drow_point(Point point, int color) {
+  int i, k;
+  for (i=0; i < POINT_SIZE; i++) {
+    for (k=0; k < POINT_SIZE; k++) {
+      LCD_DrawPixel(point.x + i, point.y + k, color);
+    }
   }
-} 
-
-
-int is_has_rotate(void) {
-  if (last_rotate.direction == NONE) {
-    return 0;
-  }
-
-  if (last_rotate.position.x == head_position.x && abs(last_rotate.position.y - head_position.y) > LEN) {
-    return 1;
-  }
-  if (last_rotate.position.y == head_position.y && abs(last_rotate.position.x - head_position.x) > LEN) {
-    return 1;
-  }
-  last_rotate.direction = NONE;
-  return 0;
 }
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -113,15 +81,14 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-    Point end_point;
-    uint32_t delta, 
-              current_tick,
-              next_render_tick = 0;
+    volatile SnakePoint *SnakeHead = NULL;
+    volatile SnakePoint *SnakeTail = NULL;
 
+    volatile SnakePoint *tmp_snake = NULL;
 
-    last_rotate.direction = NONE;
-    head_position.x = 20;
-    head_position.y = 20;
+    uint32_t current_tick,
+             next_render_tick = 0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -142,66 +109,27 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  init_snake(&SnakeHead, &SnakeTail, SNAKE_LEN, POINT_SIZE);
+
+  
+  tmp_snake = SnakeHead;
+  while(tmp_snake != NULL) {
+    drow_point(tmp_snake->position, SNAKE_COLOR);
+    tmp_snake = tmp_snake->prev;
+  }
+
+
   while (1)
   {
 	  current_tick = HAL_GetTick();
     if (next_render_tick < current_tick) {
-      LCD_FillScreen(0);
       next_render_tick = current_tick + TPF;
-
-      calculate_head_position();
-      if (is_has_rotate()) {
-
-        LCD_DrawLine(head_position.x, head_position.y, last_rotate.position.x, last_rotate.position.y, COLOR);
-
-        delta = abs(last_rotate.position.x - head_position.x) + abs(last_rotate.position.y - head_position.y);
-
-        end_point.x = last_rotate.position.x;
-        end_point.y = last_rotate.position.y;
-
-        switch(last_rotate.direction) {
-          case TOP:
-            end_point.y = last_rotate.position.y - delta;
-            break;
-          case RIGHT:
-            end_point.x = last_rotate.position.x + delta;
-            break;
-          case BOTTOM:
-            end_point.y = last_rotate.position.y + delta;
-            break;
-          case LEFT:
-            end_point.x = last_rotate.position.x - delta;
-            break;
-        }        
-        LCD_DrawLine(head_position.x, head_position.y, end_point.x, end_point.y, COLOR);
-
-
-
-
-
-      }
-      else {
-        end_point.x = head_position.x;
-        end_point.y = head_position.y;
-
-        switch(current_direction) {
-          case TOP:
-            end_point.y = head_position.y + LEN;
-            break;
-          case RIGHT:
-            end_point.x = head_position.x - LEN;
-            break;
-          case BOTTOM:
-            end_point.y = head_position.y - LEN;
-            break;
-          case LEFT:
-            end_point.x = head_position.x + LEN;
-            break;
-        }        
-        LCD_DrawLine(head_position.x, head_position.y, end_point.x, end_point.y, COLOR);
-      }
-
+      add_snake_pixel(&SnakeHead, &SnakeTail, current_direction, POINT_SIZE);
       
+      drow_point(SnakeTail->position, BG_COLOR);
+      remove_last(&SnakeTail);
+
+      drow_point(SnakeHead->position, SNAKE_COLOR);
     }
     
   /* USER CODE END WHILE */

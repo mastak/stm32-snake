@@ -36,9 +36,9 @@
 #include "stm32f4xx_it.h"
 
 /* USER CODE BEGIN 0 */
-struct Rotates last_rotate;
-Point head_position;
-Direction current_direction;
+#include "snake_struct.h"
+
+extern Direction current_direction;
 
 
 uint32_t next_click_tick = 0;
@@ -47,25 +47,20 @@ const uint32_t read_delay = 200;
 
 void check_press_position(Direction new_direction) {
   current_tick = HAL_GetTick();
-  if (next_click_tick < current_tick && last_rotate.direction == NONE) {
-    last_rotate.position.x = head_position.x;
-    last_rotate.position.y = head_position.y;
-
-    switch(current_direction) {
-      case TOP:
-        last_rotate.direction = BOTTOM;
-        break;
-      case RIGHT:
-        last_rotate.direction = LEFT;
-        break;
-      case BOTTOM:
-        last_rotate.direction = TOP;
-        break;
-      case LEFT:
-        last_rotate.direction = RIGHT;
-        break;
-    }
+  if (next_click_tick < current_tick) {
     next_click_tick = current_tick + read_delay;
+
+    if (current_direction == new_direction) {
+      return;
+    }
+
+    if ((current_direction == TOP && new_direction == BOTTOM) ||
+        (current_direction == BOTTOM && new_direction == TOP) ||
+        (current_direction == RIGHT && new_direction == LEFT) ||
+        (current_direction == LEFT && new_direction == RIGHT)) {
+      return;
+    }
+    current_direction = new_direction;    
   }
 }
 /* USER CODE END 0 */

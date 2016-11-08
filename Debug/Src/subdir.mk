@@ -6,18 +6,21 @@
 C_SRCS += \
 ../Src/gpio.c \
 ../Src/main.c \
+../Src/snake_struct.c \
 ../Src/stm32f4xx_hal_msp.c \
 ../Src/stm32f4xx_it.c 
 
 OBJS += \
 ./Src/gpio.o \
 ./Src/main.o \
+./Src/snake_struct.o \
 ./Src/stm32f4xx_hal_msp.o \
 ./Src/stm32f4xx_it.o 
 
 C_DEPS += \
 ./Src/gpio.d \
 ./Src/main.d \
+./Src/snake_struct.d \
 ./Src/stm32f4xx_hal_msp.d \
 ./Src/stm32f4xx_it.d 
 

@@ -56,25 +56,6 @@
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-typedef enum {
-  NONE,
-  TOP,
-  RIGHT,
-  BOTTOM,
-  LEFT
-} Direction;
-
-typedef struct {
-  int x;
-  int y;
-} Point;
-
-typedef struct Rotates {
-  Direction direction;
-  Point position;
-  // struct Rotate *next;
-} Rotate;
-
 /* USER CODE END Private defines */
 
 /**
